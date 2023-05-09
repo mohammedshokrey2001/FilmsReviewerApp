@@ -48,7 +48,7 @@ class AppRepository {
         }
     }
 
-    suspend fun cachingDataMultiApisAsync(): Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> {
+    suspend fun cachingDataMultiApis(): Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> {
 
         return try {
             withContext(Dispatchers.IO) {

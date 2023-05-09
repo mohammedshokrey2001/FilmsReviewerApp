@@ -29,7 +29,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
      suspend fun getDataFromTwoApis() {
 
-      val result: Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> =  repository.cachingDataMultiApisAsync()
+      val result: Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> =  repository.cachingDataMultiApis()
 
         if (result.isSuccess){
             val (data1, data2) = result.getOrNull() ?: Pair(emptyList(), emptyList())
