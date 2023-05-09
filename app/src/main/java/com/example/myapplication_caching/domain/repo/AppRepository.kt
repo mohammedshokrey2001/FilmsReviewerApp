@@ -7,6 +7,7 @@ import com.example.myapplication_caching.domain.mappers.asDomainModel
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.lang.Exception
@@ -17,13 +18,12 @@ class AppRepository {
     private suspend fun getFilmTMDB(): List<FilmsDomainModel> {
 
         return withContext(Dispatchers.IO) {
-            //   delay(10000)
+           //    delay(10000)
 
             val response = AppApi.filmsApiTMDB.getFilm()
             Log.i("Fetch_API", "getFilmTMDB: $response")
             val data = NetworkUtility.generateListFromTdmbApi(
-                JSONObject(response),
-                NetworkUtility.TDMB_FLAG
+                JSONObject(response)
             )
             Log.i("Fetch_API", "getFilmTMDB: $data")
             data.asDomainModel()
@@ -38,9 +38,8 @@ class AppRepository {
             val response = AppApi.filmsApiMiniMovie.getFilm()
 
             Log.i("Fetch_API", "getFilmMiniMovie: $response")
-            val data = NetworkUtility.generateListFromTdmbApi(
-                JSONObject(response),
-                NetworkUtility.MINI_FILM_FLAG
+            val data = NetworkUtility.generateListFromMiniFilmsApi(
+                JSONObject(response)
             )
 
             Log.i("Fetch_API", "getFilmMiniMovie: $data")
