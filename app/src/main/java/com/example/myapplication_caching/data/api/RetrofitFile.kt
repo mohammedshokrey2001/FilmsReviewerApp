@@ -12,11 +12,6 @@ private val moshi = Moshi.Builder()
     .build()
 
 
-
-
-
-
-
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
     .baseUrl(Utilities.BASE_URL_TDMB)
@@ -26,10 +21,6 @@ private val retrofit2 = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
     .baseUrl(Utilities.BASE_URL_MINI_MOVIE)
     .build()
-
-
-
-
 
 object AppApi {
 

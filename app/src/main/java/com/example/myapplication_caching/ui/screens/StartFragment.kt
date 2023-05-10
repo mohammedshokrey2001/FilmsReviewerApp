@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,20 +34,18 @@ class StartFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_start, container, false)
 
-        // Inflate the layout for this fragment
-        val mProgressDialog = ProgressDialog(requireContext())
-        mProgressDialog.setTitle("Download Dialog")
-        mProgressDialog.setMessage("Please wait until downloading Films complete")
 
         viewModel.notifyStart()
 
+        lifecycleScope.launch{}
 
 
         binding.getFilmsBt.setOnClickListener {
-            mProgressDialog.show()
-
+            binding.progressBar2.visibility = View.VISIBLE
             lifecycleScope.launch{
-                viewModel.getDataFromTwoApis()
+               if (  viewModel.getData()){
+
+               }
 
             }
         }
@@ -54,18 +53,18 @@ class StartFragment : Fragment() {
         viewModel.notifyDownloadComplete.observe(this.requireActivity(), Observer {
 
             if (it) {
-                mProgressDialog.cancel()
 
+                binding.progressBar2.visibility = View.GONE
                 if (viewModel.task){
-                    findNavController().navigate(R.id.action_startFragment_to_filmsFragment)
+                    this.findNavController().navigate(R.id.action_startFragment_to_filmsFragment)
+                }else{
+                    Toast.makeText(this.requireContext(),"please check internet Connection and wait until download the data",Toast.LENGTH_LONG).show()
                 }
             }
         })
 
 
         return binding.root
-
     }
-
 
 }

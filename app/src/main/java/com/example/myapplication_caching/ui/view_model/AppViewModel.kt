@@ -4,13 +4,18 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.domain.repo.AppRepository
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
+import com.example.myapplication_caching.domain.use_case.GetDomainDataUseCase
+import kotlinx.coroutines.launch
 
 class AppViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = AppRepository()
+    private val useCaseFilms  = GetDomainDataUseCase(getDataBase(application))
 
+    private val repository = AppRepository(getDataBase(application))
     val notifyDownloadComplete = MutableLiveData<Boolean>(false)
 
     var task = true
@@ -20,6 +25,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
 
+        viewModelScope.launch {
+
+         val  cacheResponse =   repository.cachingData()
+
+        }
     }
 
     fun notifyStart() {
@@ -27,20 +37,16 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-     suspend fun getDataFromTwoApis() {
 
-      val result: Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> =  repository.cachingDataMultiApis()
+    suspend fun getData():Boolean{
+        val data =   useCaseFilms.getFilms()
+        notifyDownloadComplete.postValue(true)
 
-        if (result.isSuccess){
-            val (data1, data2) = result.getOrNull() ?: Pair(emptyList(), emptyList())
-            _data.addAll(data1)
-            _data.addAll(data2)
-            notifyDownloadComplete.postValue(true)
-        }
-        else{
-            notifyDownloadComplete.postValue(true)
-            task = false
-        }
+        _data = data as ArrayList<FilmsDomainModel>
+        notifyDownloadComplete.postValue(true)
+         task = data.isNotEmpty()
+
+        return true
     }
 
 }

@@ -1,53 +1,32 @@
 package com.example.myapplication_caching.domain.repo
 
-import android.util.Log
-import com.example.myapplication_caching.data.api.AppApi
-import com.example.myapplication_caching.data.api.NetworkUtility
-import com.example.myapplication_caching.domain.mappers.asDomainModel
+import com.example.myapplication_caching.data.api.RemoteDataSource
+import com.example.myapplication_caching.data.db.FilmsDatabase
+import com.example.myapplication_caching.data.db.model.FilmDatabaseModel
+import com.example.myapplication_caching.data.mappers.asDatabaseModel
+import com.example.myapplication_caching.data.models.FilmsNetworkModel
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import java.lang.Exception
 
-class AppRepository {
 
+class AppRepository(private val database:FilmsDatabase) {
 
-    private suspend fun getFilmTMDB(): List<FilmsDomainModel> {
+  private  val remoteDataSource =RemoteDataSource()
 
-        return withContext(Dispatchers.IO) {
-           //    delay(10000)
-
-            val response = AppApi.filmsApiTMDB.getFilm()
-            Log.i("Fetch_API", "getFilmTMDB: $response")
-            val data = NetworkUtility.generateListFromTdmbApi(
-                JSONObject(response)
-            )
-            Log.i("Fetch_API", "getFilmTMDB: $data")
-            data.asDomainModel()
-
-        }
+    private suspend fun getFilmTMDB(): List<FilmsNetworkModel> {
+       return  remoteDataSource.getDataFromApiTdmb()
 
     }
 
 
-    private suspend fun getFilmMiniMovie(): List<FilmsDomainModel> {
-        return withContext(Dispatchers.IO) {
-            val response = AppApi.filmsApiMiniMovie.getFilm()
-
-            Log.i("Fetch_API", "getFilmMiniMovie: $response")
-            val data = NetworkUtility.generateListFromMiniFilmsApi(
-                JSONObject(response)
-            )
-
-            Log.i("Fetch_API", "getFilmMiniMovie: $data")
-            data.asDomainModel()
-        }
+    private suspend fun getFilmMiniMovie() : List<FilmsNetworkModel> {
+       return remoteDataSource.getDataFromApiMiniFilms()
     }
 
-    suspend fun cachingDataMultiApis(): Result<Pair<List<FilmsDomainModel>, List<FilmsDomainModel>>> {
+    suspend fun getDataMultiApis(): Result<Pair<List<FilmsNetworkModel>, List<FilmsNetworkModel>>> {
 
         return try {
             withContext(Dispatchers.IO) {
@@ -71,14 +50,11 @@ class AppRepository {
                     tdmpResult.isFailure && miniResult.isFailure ->
                         Result.failure(Exception("Both API calls failed"))
 
-
                     miniResult.isFailure ->
                         Result.success(Pair(emptyList(), tdmpResult.getOrNull() ?: emptyList()))
 
-
                     tdmpResult.isFailure ->
                         Result.success(Pair(miniResult.getOrNull() ?: emptyList(), emptyList()))
-
 
                     else -> {
                         Result.success(
@@ -96,5 +72,31 @@ class AppRepository {
         }
 
     }
+
+
+   suspend fun cachingData():Boolean{
+       val filmList = ArrayList<FilmDatabaseModel>()
+
+       val response = getDataMultiApis()
+        if (response.isSuccess){
+            if (response!=null){
+
+                val (data1, data2) = response.getOrNull() ?: Pair(emptyList(), emptyList())
+                filmList.addAll(data1.asDatabaseModel())
+                filmList.addAll(data2.asDatabaseModel())
+
+                database.filmsDao.saveToDatabase(*filmList.toTypedArray())
+                return true
+            }
+        }
+       return false
+
+    }
+
+   suspend fun getFilmsFromDatabase() : List<FilmDatabaseModel> {
+        return database.filmsDao.getFilms()
+    }
+
+
 
 }
