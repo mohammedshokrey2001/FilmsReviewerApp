@@ -4,6 +4,7 @@ import com.example.myapplication_caching.data.api.RemoteDataSource
 import com.example.myapplication_caching.data.db.FilmsDatabase
 import com.example.myapplication_caching.data.db.model.FilmDatabaseModel
 import com.example.myapplication_caching.data.mappers.asDatabaseModel
+import com.example.myapplication_caching.data.models.FilmTrailNetworkModel
 import com.example.myapplication_caching.data.models.FilmsNetworkModel
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import kotlinx.coroutines.Dispatchers
@@ -102,8 +103,8 @@ class AppRepository(private val database:FilmsDatabase) {
         return database.filmsDao.getFilms()
     }
 
-    suspend fun getFilmTrail(id:Int){
-        remoteDataSource.getFilmTrail(id)
+    suspend fun getFilmTrail(id:Int):FilmTrailNetworkModel{
+       return remoteDataSource.getFilmTrail(id)
 
     }
 

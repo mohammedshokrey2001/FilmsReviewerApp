@@ -6,6 +6,6 @@ import com.example.myapplication_caching.domain.model.FilmTrailDomainModel
 
 fun FilmTrailNetworkModel.asDomainModel():FilmTrailDomainModel{
     return FilmTrailDomainModel(
-        id = id
+        key = key
     )
 }

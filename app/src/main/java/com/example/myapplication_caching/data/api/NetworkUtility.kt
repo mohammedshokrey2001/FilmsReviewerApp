@@ -1,5 +1,6 @@
 package com.example.myapplication_caching.data.api
 
+import com.example.myapplication_caching.data.models.FilmTrailNetworkModel
 import com.example.myapplication_caching.data.models.FilmsNetworkModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -25,6 +26,7 @@ object NetworkUtility {
 
 
 
+
     fun generateListFromMiniFilmsApi(data: JSONObject):ArrayList<FilmsNetworkModel>{
         val result: JSONArray = data.get("results") as JSONArray
         val x = ArrayList<FilmsNetworkModel>()
@@ -39,6 +41,13 @@ object NetworkUtility {
         return x
         }
 
+    fun generateFilmsTrailFromApi(data: JSONObject):FilmTrailNetworkModel{
+        val result: JSONArray = data.get("results") as JSONArray
+        val dt = result.get(0) as JSONObject
+        val key = dt.get("key").toString()
+
+        return FilmTrailNetworkModel(key = key)
+    }
 
 
 }

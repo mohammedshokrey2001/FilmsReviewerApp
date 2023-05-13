@@ -2,6 +2,7 @@ package com.example.myapplication_caching.ui.view_model
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class AppViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val useCaseFilms  = GetDomainDataUseCase(getDataBase(application))
+    private val useCaseFilms = GetDomainDataUseCase(getDataBase(application))
 
     private val repository = AppRepository(getDataBase(application))
     val notifyDownloadComplete = MutableLiveData<Boolean>(false)
@@ -24,7 +25,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-         val  cacheResponse =   repository.cachingData()
+            val cacheResponse = repository.cachingData()
         }
     }
 
@@ -33,20 +34,21 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    suspend fun getData():Boolean{
-        val data =   useCaseFilms.getFilms()
+    suspend fun getData(): Boolean {
+        val data = useCaseFilms.getFilms()
         notifyDownloadComplete.postValue(true)
 
         _data = data as ArrayList<FilmsDomainModel>
         notifyDownloadComplete.postValue(true)
-         task = data.isNotEmpty()
+        task = data.isNotEmpty()
 
         return true
     }
 
-  suspend  fun getFilmTrail(id:Int){
+    suspend fun getFilmTrail(id: Int) {
+        val filmTrail  = useCaseFilms.getFilmTrail(id)
 
-        useCaseFilms.getFilmTrail(id)
+        Log.i("ViewModel", "getFilmTrail: $filmTrail")
     }
 }
 

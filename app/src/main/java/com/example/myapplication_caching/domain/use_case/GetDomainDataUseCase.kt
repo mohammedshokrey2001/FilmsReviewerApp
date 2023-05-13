@@ -2,6 +2,7 @@ package com.example.myapplication_caching.domain.use_case
 
 import com.example.myapplication_caching.data.db.FilmsDatabase
 import com.example.myapplication_caching.domain.mappers.asDomainModel
+import com.example.myapplication_caching.domain.model.FilmTrailDomainModel
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import com.example.myapplication_caching.domain.repo.AppRepository
 
@@ -17,8 +18,8 @@ class GetDomainDataUseCase(database: FilmsDatabase) {
         return filmsList
     }
 
-    suspend fun getFilmTrail(id:Int){
-        appRepository.getFilmTrail(id)
+    suspend fun getFilmTrail(id:Int):FilmTrailDomainModel{
+       return appRepository.getFilmTrail(id).asDomainModel()
     }
 
     }
