@@ -29,7 +29,7 @@ class FilmsFragment : Fragment() {
 
         binding = DataBindingUtil .inflate(inflater,R.layout.fragment_films, container, false)
 
-        val adapter =  FilmAdapter(viewModel.data)
+        val adapter =  FilmAdapter(viewModel.data,viewModel)
         val rv = binding.rvFilms
         rv.setHasFixedSize(true)
         rv.layoutManager = LinearLayoutManager(this.requireContext())

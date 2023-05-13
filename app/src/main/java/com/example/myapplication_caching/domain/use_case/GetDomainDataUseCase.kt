@@ -17,5 +17,9 @@ class GetDomainDataUseCase(database: FilmsDatabase) {
         return filmsList
     }
 
+    suspend fun getFilmTrail(id:Int){
+        appRepository.getFilmTrail(id)
+    }
+
     }
 

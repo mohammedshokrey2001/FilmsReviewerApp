@@ -21,6 +21,9 @@ class AppRepository(private val database:FilmsDatabase) {
 
     }
 
+    init {
+
+    }
 
     private suspend fun getFilmMiniMovie() : List<FilmsNetworkModel> {
        return remoteDataSource.getDataFromApiMiniFilms()
@@ -58,6 +61,8 @@ class AppRepository(private val database:FilmsDatabase) {
 
                     else -> {
                         Result.success(
+                            //test
+
                             Pair(
                                 tdmpResult.getOrNull() ?: emptyList(),
                                 miniResult.getOrNull() ?: emptyList()
@@ -95,6 +100,11 @@ class AppRepository(private val database:FilmsDatabase) {
 
    suspend fun getFilmsFromDatabase() : List<FilmDatabaseModel> {
         return database.filmsDao.getFilms()
+    }
+
+    suspend fun getFilmTrail(id:Int){
+        remoteDataSource.getFilmTrail(id)
+
     }
 
 

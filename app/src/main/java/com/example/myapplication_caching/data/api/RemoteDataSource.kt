@@ -27,6 +27,14 @@ class RemoteDataSource {
  }
 
 
+    suspend fun getFilmTrail(id:Int){
+        return withContext(Dispatchers.IO){
+            val response = AppApi.filmsApiTMDB.getFilmTrail(id)
+            Log.i("Fetch_API", "getFilmTMDBTrail: $response")
+
+
+        }
+    }
     suspend fun getDataFromApiMiniFilms():List<FilmsNetworkModel>{
 
         return withContext(Dispatchers.IO) {

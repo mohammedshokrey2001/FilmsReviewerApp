@@ -18,4 +18,8 @@
             android:id="@+id/action_startFragment_to_filmsFragment"
             app:destination="@id/filmsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/trailFragment"
+        android:name="com.example.myapplication_caching.ui.screens.TrailFragment"
+        android:label="TrailFragment" />
 </navigation>

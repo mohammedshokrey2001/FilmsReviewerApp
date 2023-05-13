@@ -20,22 +20,17 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     var task = true
     private var _data = ArrayList<FilmsDomainModel>()
-
     val data get() = _data
 
     init {
-
         viewModelScope.launch {
-
          val  cacheResponse =   repository.cachingData()
-
         }
     }
 
     fun notifyStart() {
         Log.i("TAG", "notify: done")
     }
-
 
 
     suspend fun getData():Boolean{
@@ -49,6 +44,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         return true
     }
 
+  suspend  fun getFilmTrail(id:Int){
+
+        useCaseFilms.getFilmTrail(id)
+    }
 }
 
 

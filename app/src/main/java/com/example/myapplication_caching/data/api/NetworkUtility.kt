@@ -39,8 +39,6 @@ object NetworkUtility {
         return x
         }
 
-    const val TDMB_FLAG = "tdmb"
-    const val MINI_FILM_FLAG = "mini"
 
 
 }
