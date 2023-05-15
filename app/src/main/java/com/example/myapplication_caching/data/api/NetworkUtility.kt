@@ -1,5 +1,6 @@
 package com.example.myapplication_caching.data.api
 
+import android.util.Log
 import com.example.myapplication_caching.data.models.FilmTrailNetworkModel
 import com.example.myapplication_caching.data.models.FilmsNetworkModel
 import org.json.JSONArray
@@ -7,6 +8,7 @@ import org.json.JSONObject
 
 object NetworkUtility {
 
+    private val TAG = "NetworkUtility"
     fun generateListFromTdmbApi(data: JSONObject): ArrayList<FilmsNetworkModel> {
 
         val result: JSONArray = data.get("results") as JSONArray
@@ -41,14 +43,22 @@ object NetworkUtility {
         return x
         }
 
-    fun generateFilmsTrailFromApi(data: JSONObject):FilmTrailNetworkModel{
-        val result: JSONArray = data.get("results") as JSONArray
-        val dt = result.get(0) as JSONObject
-        val key = dt.get("key").toString()
+    fun generateFilmsTrailFromApi(data: JSONObject):FilmTrailNetworkModel {
 
-        return FilmTrailNetworkModel(key = key)
+            val result: JSONArray = data.get("results") as JSONArray
+            if (result.isNull(0)){
+                Log.i(TAG, "generateFilmsTrailFromApi: error $result")
+               return FilmTrailNetworkModel(ERROR)
+            }
+            val dt = result.get(0) as JSONObject
+            val key = dt.get("key").toString()
+
+
+            return FilmTrailNetworkModel(key = key)
+
     }
 
+    const val ERROR = "error"
 
 }
 

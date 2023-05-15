@@ -27,7 +27,7 @@ class RepositoryWorker(private val context: Context, private val repository: App
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-        val request = PeriodicWorkRequestBuilder<CachingWorker>(3, TimeUnit.MINUTES)
+        val request = PeriodicWorkRequestBuilder<CachingWorker>(3, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
         workManager.enqueueUniquePeriodicWork(
@@ -38,9 +38,6 @@ class RepositoryWorker(private val context: Context, private val repository: App
     }
 
 }
-
-
-
 
 
 class CachingWorker (private val context: Context, params: WorkerParameters) : CoroutineWorker(context, params){

@@ -1,18 +1,23 @@
 package com.example.myapplication_caching.ui.view_model
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.myapplication_caching.R
+import com.example.myapplication_caching.data.api.NetworkUtility
 import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.domain.repo.AppRepository
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import com.example.myapplication_caching.domain.use_case.GetDomainDataUseCase
 import kotlinx.coroutines.launch
 
-class AppViewModel(application: Application) : AndroidViewModel(application) {
+class AppViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val useCaseFilms = GetDomainDataUseCase(getDataBase(application))
 
@@ -45,10 +50,19 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         return true
     }
 
-    suspend fun getFilmTrail(id: Int) {
-        val filmTrail  = useCaseFilms.getFilmTrail(id)
+    suspend fun getFilmTrail(id: Int,navController: NavController) {
+        val filmTrail = useCaseFilms.getFilmTrail(id)
 
-        Log.i("ViewModel", "getFilmTrail: $filmTrail")
+        if (filmTrail.key == NetworkUtility.ERROR)
+            Toast.makeText(
+                application.baseContext,
+                "The resource you requested could not be found.",
+                Toast.LENGTH_LONG
+            ).show()
+        else {
+            Log.i("ViewModel", "getFilmTrail: $filmTrail")
+            navController.navigate(R.id.action_filmsFragment_to_trailFragment)
+        }
     }
 }
 

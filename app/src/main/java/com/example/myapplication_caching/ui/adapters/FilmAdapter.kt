@@ -1,8 +1,10 @@
 package com.example.myapplication_caching.ui.adapters
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication_caching.databinding.ListItemFilmsBinding
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
@@ -11,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 class FilmAdapter(private val filmsList: List<FilmsDomainModel>
-,private val viewModel :AppViewModel) :RecyclerView.Adapter<FilmViewHolder>() {
+,private val viewModel :AppViewModel,private val navController: NavController) :RecyclerView.Adapter<FilmViewHolder>() {
 
     private lateinit var binding:ListItemFilmsBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -27,7 +29,7 @@ class FilmAdapter(private val filmsList: List<FilmsDomainModel>
         holder.itemView.rootView.setOnClickListener {
 
             viewModel.viewModelScope.launch {
-                viewModel.getFilmTrail(filmsList[position].id)
+                viewModel.getFilmTrail(filmsList[position].id,navController)
             }
         }
     }

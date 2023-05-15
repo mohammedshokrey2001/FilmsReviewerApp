@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication_caching.R
 import com.example.myapplication_caching.databinding.FragmentFilmsBinding
@@ -29,13 +30,14 @@ class FilmsFragment : Fragment() {
 
         binding = DataBindingUtil .inflate(inflater,R.layout.fragment_films, container, false)
 
-        val adapter =  FilmAdapter(viewModel.data,viewModel)
+        val adapter =  FilmAdapter(viewModel.data,viewModel,findNavController())
         val rv = binding.rvFilms
         rv.setHasFixedSize(true)
-        rv.layoutManager = LinearLayoutManager(this.requireContext())
+        rv.layoutManager = LinearLayoutManager(this.context)
         rv.adapter = adapter
         return binding.root
     }
+
 
 
 

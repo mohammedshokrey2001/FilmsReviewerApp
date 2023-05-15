@@ -9,7 +9,14 @@
         android:id="@+id/filmsFragment"
         android:name="com.example.myapplication_caching.ui.screens.FilmsFragment"
         android:label="fragment_films"
-        tools:layout="@layout/fragment_films" />
+        tools:layout="@layout/fragment_films" >
+        <action
+            android:id="@+id/action_filmsFragment_to_trailFragment"
+            app:destination="@id/trailFragment" />
+        <action
+            android:id="@+id/action_filmsFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.myapplication_caching.ui.screens.StartFragment"
@@ -21,5 +28,9 @@
     <fragment
         android:id="@+id/trailFragment"
         android:name="com.example.myapplication_caching.ui.screens.TrailFragment"
-        android:label="TrailFragment" />
+        android:label="TrailFragment" >
+        <action
+            android:id="@+id/action_trailFragment_to_filmsFragment"
+            app:destination="@id/filmsFragment" />
+    </fragment>
 </navigation>

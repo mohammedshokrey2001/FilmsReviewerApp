@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.myapplication_caching.R
 import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.databinding.ActivityMainBinding
@@ -26,12 +27,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-
         repository  =  AppRepository(getDataBase(this))
-       val repositoryWork = RepositoryWorker(this,repository)
+         val repositoryWork = RepositoryWorker(this,repository)
 
         repositoryWork.start()
     }
-
 
 }

@@ -15,7 +15,8 @@ interface FilmsApiTDMB {
     @GET("movie/{id}/videos")
     suspend fun getFilmTrail(
         @Path("id") id: Int, @Query("api_key") apiKey: String = Utilities.API_KEY,
-        @Query("language") language: String = Utilities.LANGUAGE
+        @Query("language") language: String = Utilities.LANGUAGE,
+
     ): String
 
 
