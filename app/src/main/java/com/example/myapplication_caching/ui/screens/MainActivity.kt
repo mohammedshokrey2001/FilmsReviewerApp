@@ -1,10 +1,8 @@
 package com.example.myapplication_caching.ui.screens
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.myapplication_caching.R
 import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.databinding.ActivityMainBinding

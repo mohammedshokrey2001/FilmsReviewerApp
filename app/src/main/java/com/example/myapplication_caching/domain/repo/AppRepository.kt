@@ -13,21 +13,16 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 
-class AppRepository(private val database:FilmsDatabase) {
+class AppRepository(private val database: FilmsDatabase) {
 
-  private  val remoteDataSource =RemoteDataSource()
+    private val remoteDataSource = RemoteDataSource()
 
     private suspend fun getFilmTMDB(): List<FilmsNetworkModel> {
-       return  remoteDataSource.getDataFromApiTdmb()
+        return remoteDataSource.getDataFromApiTdmb()
 
     }
-
-    init {
-
-    }
-
-    private suspend fun getFilmMiniMovie() : List<FilmsNetworkModel> {
-       return remoteDataSource.getDataFromApiMiniFilms()
+    private suspend fun getFilmMiniMovie(): List<FilmsNetworkModel> {
+        return remoteDataSource.getDataFromApiMiniFilms()
     }
 
     suspend fun getDataMultiApis(): Result<Pair<List<FilmsNetworkModel>, List<FilmsNetworkModel>>> {
@@ -51,14 +46,20 @@ class AppRepository(private val database:FilmsDatabase) {
                 }
 
                 when {
-                    tdmpResult.isFailure && miniResult.isFailure ->
-                        Result.failure(Exception("Both API calls failed"))
+                    tdmpResult.isFailure && miniResult.isFailure -> Result.failure(Exception("Both API calls failed"))
 
-                    miniResult.isFailure ->
-                        Result.success(Pair(emptyList(), tdmpResult.getOrNull() ?: emptyList()))
+                    miniResult.isFailure -> Result.success(
+                        Pair(
+                            emptyList(),
+                            tdmpResult.getOrNull() ?: emptyList()
+                        )
+                    )
 
-                    tdmpResult.isFailure ->
-                        Result.success(Pair(miniResult.getOrNull() ?: emptyList(), emptyList()))
+                    tdmpResult.isFailure -> Result.success(
+                        Pair(
+                            miniResult.getOrNull() ?: emptyList(), emptyList()
+                        )
+                    )
 
                     else -> {
                         Result.success(
@@ -80,34 +81,33 @@ class AppRepository(private val database:FilmsDatabase) {
     }
 
 
-   suspend fun cachingData():Boolean{
-       val filmList = ArrayList<FilmDatabaseModel>()
+    suspend fun cachingData(): Boolean {
+        val filmList = ArrayList<FilmDatabaseModel>()
 
-       val response = getDataMultiApis()
-        if (response.isSuccess){
-            if (response!=null){
+        val response = getDataMultiApis()
+        if (response.isSuccess) {
+            if (response != null) {
 
                 val (data1, data2) = response.getOrNull() ?: Pair(emptyList(), emptyList())
                 filmList.addAll(data1.asDatabaseModel())
-                filmList.addAll(data2.asDatabaseModel())
+                // filmList.addAll(data2.asDatabaseModel())
 
                 database.filmsDao.saveToDatabase(*filmList.toTypedArray())
                 return true
             }
         }
-       return false
+        return false
 
     }
 
-   suspend fun getFilmsFromDatabase() : List<FilmDatabaseModel> {
+    suspend fun getFilmsFromDatabase(): List<FilmDatabaseModel> {
         return database.filmsDao.getFilms()
     }
 
-    suspend fun getFilmTrail(id:Int):FilmTrailNetworkModel{
-       return remoteDataSource.getFilmTrail(id)
+    suspend fun getFilmTrail(id: Int): FilmTrailNetworkModel {
+        return remoteDataSource.getFilmTrail(id)
 
     }
-
 
 
 }

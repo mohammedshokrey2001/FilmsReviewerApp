@@ -10,17 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.TrailFragment">
-
+        tools:context=".ui.screens.players.third_party.ThirdPartyPlayersActivity">
 
         <FrameLayout
             android:id="@+id/fragment_container"
-            android:layout_width="387dp"
-            android:layout_height="280dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

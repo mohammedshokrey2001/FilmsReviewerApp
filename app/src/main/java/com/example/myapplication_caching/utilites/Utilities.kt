@@ -14,4 +14,5 @@ object Utilities {
      const val LANGUAGE = "en-US"
 
 
+    const val DEMO_URL_EXO =  "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
 }

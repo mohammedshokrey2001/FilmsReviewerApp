@@ -3,6 +3,9 @@
 
 buildscript {
 
+repositories {
+    google()
+}
 }
 
 plugins {
@@ -17,5 +20,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
 

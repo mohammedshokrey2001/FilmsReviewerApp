@@ -4,17 +4,16 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.example.myapplication_caching.R
 import com.example.myapplication_caching.data.api.NetworkUtility
 import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.domain.repo.AppRepository
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import com.example.myapplication_caching.domain.use_case.GetDomainDataUseCase
+import com.example.myapplication_caching.ui.screens.players.base.factory.PlayerFactory
+import com.example.myapplication_caching.utilites.Utilities
 import kotlinx.coroutines.launch
 
 class AppViewModel(private val application: Application) : AndroidViewModel(application) {
@@ -50,7 +49,7 @@ class AppViewModel(private val application: Application) : AndroidViewModel(appl
         return true
     }
 
-    suspend fun getFilmTrail(id: Int,navController: NavController) {
+    suspend fun getFilmTrail(id: Int, context: Context) {
         val filmTrail = useCaseFilms.getFilmTrail(id)
 
         if (filmTrail.key == NetworkUtility.ERROR)
@@ -61,9 +60,19 @@ class AppViewModel(private val application: Application) : AndroidViewModel(appl
             ).show()
         else {
             Log.i("ViewModel", "getFilmTrail: $filmTrail")
-            navController.navigate(R.id.action_filmsFragment_to_trailFragment)
+
+            val dest = PlayerFactory.createPlayer2(
+                context,
+                PlayerFactory.THIRD_PARTY,
+                Utilities.DEMO_URL_EXO
+            )
+            Log.i("ViewModel", "getFilmTrail: $dest")
+
+            context.startActivity(dest)
         }
     }
+
+
 }
 
 

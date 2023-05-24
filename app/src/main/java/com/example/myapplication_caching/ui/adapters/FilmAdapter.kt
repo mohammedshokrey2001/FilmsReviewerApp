@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 class FilmAdapter(private val filmsList: List<FilmsDomainModel>
-,private val viewModel :AppViewModel,private val navController: NavController) :RecyclerView.Adapter<FilmViewHolder>() {
+,private val viewModel :AppViewModel,private val context: Context) :RecyclerView.Adapter<FilmViewHolder>() {
 
     private lateinit var binding:ListItemFilmsBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -29,7 +29,7 @@ class FilmAdapter(private val filmsList: List<FilmsDomainModel>
         holder.itemView.rootView.setOnClickListener {
 
             viewModel.viewModelScope.launch {
-                viewModel.getFilmTrail(filmsList[position].id,navController)
+                viewModel.getFilmTrail(filmsList[position].id, context =context )
             }
         }
     }

@@ -1,12 +1,14 @@
-package com.example.myapplication_caching.ui.player
+package com.example.myapplication_caching.utilites.player
 
 import android.content.Context
 import android.view.ViewGroup
 
 interface OwnVideoPlayer {
 
-    fun initialize(container:ViewGroup, url:String, context:Context)
+    fun initialize( url:String)
     fun stop()
 
     fun play()
+
+
 }
