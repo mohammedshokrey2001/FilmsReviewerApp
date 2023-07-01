@@ -1,12 +1,11 @@
 package com.example.myapplication_caching.domain.repo
 
-import com.example.myapplication_caching.data.api.RemoteDataSource
+import com.example.myapplication_caching.data.api.data_source.RemoteDataSource
 import com.example.myapplication_caching.data.db.FilmsDatabase
 import com.example.myapplication_caching.data.db.model.FilmDatabaseModel
 import com.example.myapplication_caching.data.mappers.asDatabaseModel
 import com.example.myapplication_caching.data.models.FilmTrailNetworkModel
 import com.example.myapplication_caching.data.models.FilmsNetworkModel
-import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -95,6 +94,7 @@ class AppRepository(private val database: FilmsDatabase) {
                 database.filmsDao.saveToDatabase(*filmList.toTypedArray())
                 return true
             }
+
         }
         return false
 

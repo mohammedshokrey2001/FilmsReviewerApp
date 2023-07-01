@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this, AppViewModelFactory(this.application))[AppViewModel::class.java]
     }
 
-    lateinit var  repository :AppRepository
+   private lateinit var  repository :AppRepository
 
     private lateinit var binding :ActivityMainBinding
 

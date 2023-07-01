@@ -1,9 +1,10 @@
-package com.example.myapplication_caching.data.api
+package com.example.myapplication_caching.data.api.data_source
 
 import android.util.Log
+import com.example.myapplication_caching.data.api.retrofit.AppApi
+import com.example.myapplication_caching.data.api.util.NetworkUtility
 import com.example.myapplication_caching.data.models.FilmTrailNetworkModel
 import com.example.myapplication_caching.data.models.FilmsNetworkModel
-import com.example.myapplication_caching.domain.mappers.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -31,7 +32,7 @@ class RemoteDataSource {
     suspend fun getFilmTrail(id:Int) :FilmTrailNetworkModel{
         return withContext(Dispatchers.IO){
             val response = AppApi.filmsApiTMDB.getFilmTrail(id)
-           val dataAsNetworkModel = NetworkUtility.generateFilmsTrailFromApi(JSONObject(response))
+               val dataAsNetworkModel = NetworkUtility.generateFilmsTrailFromApi(JSONObject(response))
            // Log.i("Fetch_API", "getFilmTMDBTrail: $dataAsNetworkModel")
 
             dataAsNetworkModel

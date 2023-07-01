@@ -25,16 +25,20 @@ class ThirdPartyPlayersActivity : AppCompatActivity(){
         val bundle = intent.getBundleExtra(PlayerFactory.DATA)!!
         val url = bundle.getString(PlayerFactory.URL)
         Log.i("ThirdPartyPlayersActivity", "onCreate: $url")
+        exoPlayer(url=url)
+
+    }
+
+
+
+
+    private fun exoPlayer(url:String?){
         val exoFragment = ExoFragment(url!!)
 
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, exoFragment)
         transaction.addToBackStack(null)
         transaction.commit()
-
     }
-
-
-
 
 }

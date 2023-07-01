@@ -7,50 +7,47 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication_caching.data.api.NetworkUtility
+import com.example.myapplication_caching.data.api.util.NetworkUtility
 import com.example.myapplication_caching.data.db.getDataBase
 import com.example.myapplication_caching.domain.repo.AppRepository
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
-import com.example.myapplication_caching.domain.use_case.GetDomainDataUseCase
+import com.example.myapplication_caching.domain.use_case.GetDomainDataFilmsUseCase
+import com.example.myapplication_caching.domain.use_case.GetDomainDataTrailUseCase
 import com.example.myapplication_caching.ui.screens.players.base.factory.PlayerFactory
 import com.example.myapplication_caching.utilites.Utilities
 import kotlinx.coroutines.launch
 
 class AppViewModel(private val application: Application) : AndroidViewModel(application) {
 
-    private val useCaseFilms = GetDomainDataUseCase(getDataBase(application))
+    private val TAG = "AppViewModel"
+    private val useCaseFilms = GetDomainDataFilmsUseCase(getDataBase(application))
+    private val useCaseTrail = GetDomainDataTrailUseCase(getDataBase(application))
 
-    private val repository = AppRepository(getDataBase(application))
     val notifyDownloadComplete = MutableLiveData<Boolean>(false)
 
-    var task = true
+    private var _task = true
+    val  task get() = _task
+
+
     private var _data = ArrayList<FilmsDomainModel>()
     val data get() = _data
 
-    init {
-        viewModelScope.launch {
-            val cacheResponse = repository.cachingData()
-        }
-    }
-
     fun notifyStart() {
-        Log.i("TAG", "notify: done")
+        Log.i(TAG, "notify: done")
     }
-
 
     suspend fun getData(): Boolean {
         val data = useCaseFilms.getFilms()
         notifyDownloadComplete.postValue(true)
 
         _data = data as ArrayList<FilmsDomainModel>
-        notifyDownloadComplete.postValue(true)
-        task = data.isNotEmpty()
+        _task = data.isNotEmpty()
 
         return true
     }
 
     suspend fun getFilmTrail(id: Int, context: Context) {
-        val filmTrail = useCaseFilms.getFilmTrail(id)
+        val filmTrail = useCaseTrail.getFilmTrail(id)
 
         if (filmTrail.key == NetworkUtility.ERROR)
             Toast.makeText(
@@ -59,14 +56,14 @@ class AppViewModel(private val application: Application) : AndroidViewModel(appl
                 Toast.LENGTH_LONG
             ).show()
         else {
-            Log.i("ViewModel", "getFilmTrail: $filmTrail")
-
-            val dest = PlayerFactory.createPlayer2(
+            Log.i(TAG, "getFilmTrail: $filmTrail")
+            // if you want to play youtube change  PlayerFactory.THIRD_PARTY with PlayerFactory.YOUTUBE
+            val dest = PlayerFactory.createPlayer(
                 context,
                 PlayerFactory.THIRD_PARTY,
                 Utilities.DEMO_URL_EXO
             )
-            Log.i("ViewModel", "getFilmTrail: $dest")
+            Log.i(TAG, "getFilmTrail: $dest")
 
             context.startActivity(dest)
         }

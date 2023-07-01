@@ -8,6 +8,7 @@ import com.example.myapplication_caching.domain.model.FilmsDomainModel
 fun List<FilmsNetworkModel>.asDatabaseModel():List<FilmDatabaseModel>{
     return map {
         FilmDatabaseModel(
+
             movieName = it.movieName,
             popularity = it.popularity,
             id = it.id

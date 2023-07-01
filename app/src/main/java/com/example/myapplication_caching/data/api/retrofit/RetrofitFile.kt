@@ -1,6 +1,7 @@
-package com.example.myapplication_caching.data.api
+package com.example.myapplication_caching.data.api.retrofit
 
-import com.example.myapplication_caching.BuildConfig
+import com.example.myapplication_caching.data.api.mini.FilmsApiMinMovie
+import com.example.myapplication_caching.data.api.tmdb.FilmsApiTDMB
 import com.example.myapplication_caching.utilites.Utilities
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

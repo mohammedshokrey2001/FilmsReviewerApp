@@ -1,4 +1,4 @@
-package com.example.myapplication_caching.ui.screens.players.youtuve
+package com.example.myapplication_caching.ui.screens.players.youtube
 
 import android.os.Bundle
 import android.util.Log

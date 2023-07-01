@@ -36,11 +36,6 @@ class FilmsFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(this.context)
         rv.adapter = adapter
         return binding.root
-
-
     }
-
-
-
 
 }

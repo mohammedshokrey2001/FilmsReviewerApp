@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.myapplication_caching.R
 import com.example.myapplication_caching.databinding.FragmentExoBinding
-import com.example.myapplication_caching.utilites.player.OwnVideoPlayer
+import com.example.myapplication_caching.ui.screens.players.player_interface.OwnVideoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 
 
-class ExoFragment(private val url:String) : Fragment(),OwnVideoPlayer {
+class ExoFragment(private val url:String) : Fragment(), OwnVideoPlayer {
     private lateinit var  player: SimpleExoPlayer
     private lateinit  var playerView: PlayerView
     private lateinit var binding:FragmentExoBinding
@@ -29,13 +29,20 @@ class ExoFragment(private val url:String) : Fragment(),OwnVideoPlayer {
     ): View? {
         // Inflate the layout for this fragment
         binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_exo, container, false)
-
-
         playerView = binding.playerView
         initialize(url)
-        play()
-
         return binding.root
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        play()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stop()
     }
 
 
@@ -49,6 +56,8 @@ class ExoFragment(private val url:String) : Fragment(),OwnVideoPlayer {
 
     }
 
+
+
     override fun stop() {
         player.stop()
 
@@ -59,9 +68,4 @@ class ExoFragment(private val url:String) : Fragment(),OwnVideoPlayer {
     }
 
 
-companion object{
-    const val URL ="url"
-
-
-}
 }

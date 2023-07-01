@@ -21,7 +21,7 @@
             android:name=".ui.screens.players.base.BasePlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.screens.players.youtuve.YoutubeActivity"
+            android:name=".ui.screens.players.youtube.YoutubeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.screens.MainActivity"

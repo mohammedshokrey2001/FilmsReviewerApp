@@ -6,7 +6,7 @@ import com.example.myapplication_caching.domain.model.FilmTrailDomainModel
 import com.example.myapplication_caching.domain.model.FilmsDomainModel
 import com.example.myapplication_caching.domain.repo.AppRepository
 
-class GetDomainDataUseCase(database: FilmsDatabase) {
+class GetDomainDataFilmsUseCase(database: FilmsDatabase) {
 
     private val appRepository = AppRepository(database)
 
@@ -18,9 +18,7 @@ class GetDomainDataUseCase(database: FilmsDatabase) {
         return filmsList
     }
 
-    suspend fun getFilmTrail(id:Int):FilmTrailDomainModel{
-       return appRepository.getFilmTrail(id).asDomainModel()
-    }
+
 
     }
 

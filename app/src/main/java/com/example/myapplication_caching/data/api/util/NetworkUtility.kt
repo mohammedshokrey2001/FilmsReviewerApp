@@ -1,4 +1,4 @@
-package com.example.myapplication_caching.data.api
+package com.example.myapplication_caching.data.api.util
 
 import android.util.Log
 import com.example.myapplication_caching.data.models.FilmTrailNetworkModel

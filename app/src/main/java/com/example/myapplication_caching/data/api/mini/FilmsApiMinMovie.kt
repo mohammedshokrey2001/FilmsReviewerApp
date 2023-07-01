@@ -1,4 +1,4 @@
-package com.example.myapplication_caching.data.api
+package com.example.myapplication_caching.data.api.mini
 
 import com.example.myapplication_caching.BuildConfig
 import retrofit2.Response

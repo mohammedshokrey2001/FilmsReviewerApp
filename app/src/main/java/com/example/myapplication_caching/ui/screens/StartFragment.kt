@@ -37,9 +37,6 @@ class StartFragment : Fragment() {
 
         viewModel.notifyStart()
 
-        lifecycleScope.launch{}
-
-
         binding.getFilmsBt.setOnClickListener {
             binding.progressBar2.visibility = View.VISIBLE
             lifecycleScope.launch{

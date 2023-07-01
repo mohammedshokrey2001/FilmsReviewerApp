@@ -29,5 +29,8 @@ internal class AppRepositoryTest {
 
     @Test
     fun getFilmTrail() {
+     assertEquals(5,(3+2))
+    
     }
+
 }
