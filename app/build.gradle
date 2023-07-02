@@ -24,6 +24,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "Api_Key_MINI_MOVIE",apikeyProperties['Api_Key_MINI_MOVIE'])
         buildConfigField("String", "Api_Key_TMDB", apikeyProperties['Api_Key_TMDB'])
+        buildConfigField("String", "YOUTUBE_KEY", apikeyProperties['YOUTUBE_KEY'])
+        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
 
     }
 
